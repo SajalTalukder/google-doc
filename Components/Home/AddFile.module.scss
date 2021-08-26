@@ -1,0 +1,72 @@
+.file {
+  background: #f1f3f4;
+  padding: 3rem;
+  overflow-x: hidden;
+  &__box {
+    width: 50%;
+    margin: auto;
+    @media screen and (max-width: 900px) {
+      width: 60%;
+    }
+    @media screen and (max-width: 700px) {
+      width: 80%;
+    }
+    @media screen and (max-width: 500px) {
+      width: 98%;
+    }
+  }
+  &__image {
+    width: 150px;
+    height: 230px;
+    border: 2px solid rgba(128, 128, 128, 0.281);
+    overflow: hidden;
+    transition: all 0.3s;
+    &:hover {
+      border: 2px solid rgba(83, 71, 253, 0.801);
+    }
+    img {
+      transition: all 0.3s;
+      cursor: pointer;
+      width: 150px;
+      height: 230px;
+
+      box-shadow: 0px 3px 7px rgba(73, 73, 73, 0.5);
+      &:hover {
+        transform: scale(1.2);
+      }
+    }
+  }
+  &__flex {
+    display: flex;
+    justify-content: space-between;
+    color: gray;
+    margin-bottom: 2rem;
+    text-transform: capitalize;
+  }
+  h2 {
+    font-size: 1.6rem;
+    font-weight: normal;
+
+    padding: 0.7rem;
+  }
+  p {
+    font-size: 1.3rem;
+    font-weight: bold;
+    margin-left: 2rem;
+    margin-top: 2rem;
+    color: rgb(73, 73, 73);
+  }
+  &__icon {
+    border-radius: 50%;
+    padding: 0.7rem;
+    text-align: center;
+    cursor: pointer;
+    transition: 0.3s ease-in;
+    &:hover {
+      background: rgb(223, 222, 222);
+    }
+    &-threedot {
+      font-size: 2rem !important;
+    }
+  }
+}

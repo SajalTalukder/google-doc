@@ -1,0 +1,26 @@
+@import "../styles/sass/helperStyle";
+.login {
+  width: 100vw;
+  height: 100vh;
+  @include flex-center;
+  flex-direction: column;
+}
+
+.button {
+  padding: 1.3rem 5rem;
+  background: $blue;
+  border-radius: 7px;
+  font-weight: bold;
+  color: white;
+  font-size: 1.4rem;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  transition: all 0.3s;
+
+  &:hover {
+    background: rgba($blue, 0.8);
+  }
+  &:active {
+    transform: scale(0.95);
+  }
+}
