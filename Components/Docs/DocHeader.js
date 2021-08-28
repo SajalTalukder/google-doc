@@ -1,5 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
-import React from "react";
+import React, { useState } from "react";
 import cls from "./Doc.module.scss";
 import DescriptionOutlinedIcon from "@material-ui/icons/Description";
 import ShareOutlinedIcon from "@material-ui/icons/ShareOutlined";
@@ -9,12 +9,14 @@ import { useRouter } from "next/dist/client/router";
 import { db } from "../../firebase";
 import Login from "../Login";
 import TextEditor from "./TextEditor";
+import LogoutModal from "../Home/LogoutModal";
+import Head from "next/head";
 
 const DocHeader = () => {
   const [session] = useSession();
   const router = useRouter();
   const { docId } = router.query;
-
+  const [show, setShow] = useState(false);
   const [snapshot, loading] = useCollectionOnce(
     db
       .collection("userDocs")
@@ -24,11 +26,26 @@ const DocHeader = () => {
   );
 
   if (!session) {
-    return <Login />;
+    return (
+      <>
+        <Head>
+          <title>Sign in with Google</title>
+        </Head>
+        <Login />
+      </>
+    );
   }
+
+  const showHandler = () => {
+    setShow(true);
+  };
+  const hideHandler = () => {
+    setShow(false);
+  };
 
   return (
     <>
+      {show && <LogoutModal onHide={hideHandler} />}
       <header className={cls["header"]}>
         <nav className={cls["nav"]}>
           <div
@@ -58,7 +75,7 @@ const DocHeader = () => {
               <span>Share</span>
             </button>
           </div>
-          <div onClick={signOut} className={cls["nav__user-image"]}>
+          <div onClick={showHandler} className={cls["nav__user-image"]}>
             <img loading="lazy" src={session?.user?.image} alt="user" />
           </div>
         </nav>

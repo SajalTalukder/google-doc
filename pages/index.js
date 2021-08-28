@@ -5,7 +5,7 @@ import { getSession, useSession } from "next-auth/client";
 import Head from "next/head";
 const HomePage = () => {
   const [session] = useSession();
-  console.log(session);
+
   if (!session) {
     return (
       <>

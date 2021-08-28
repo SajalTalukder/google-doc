@@ -55,7 +55,6 @@ const TextEditor = () => {
     <div className={cls["editor-div"]}>
       <Editor
         editorState={editorState}
-        wrapperClassName="wrapper-class"
         onEditorStateChange={onEditorStateChange}
         toolbarClassName={cls["toolbar"]}
         editorClassName={cls["editor"]}

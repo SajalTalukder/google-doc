@@ -12,6 +12,7 @@ import { DeleteForever } from "@material-ui/icons";
 
 const MyFile = () => {
   const [session] = useSession();
+
   const router = useRouter();
   const [snapshot, loading] = useCollectionOnce(
     db
@@ -35,11 +36,10 @@ const MyFile = () => {
   }
 
   if (snapshot && !loading) {
-    fileContent = snapshot?.docs.map((doc) => {
+    fileContent = snapshot?.docs.map((doc, i) => {
       return (
-        <>
+        <div key={doc.id}>
           <div
-            key={doc.id}
             onClick={() => {
               router.push(`/doc/${doc.id}`);
             }}
@@ -56,7 +56,7 @@ const MyFile = () => {
               <MoreVertOutlinedIcon className={cls["myfile__more-icon"]} />
             </span>
           </div>
-        </>
+        </div>
       );
     });
   }
