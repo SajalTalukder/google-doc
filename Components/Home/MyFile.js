@@ -1,5 +1,4 @@
 import AssignmentIcon from "@material-ui/icons/Assignment";
-import FolderOutlinedIcon from "@material-ui/icons/FolderOutlined";
 import MoreVertOutlinedIcon from "@material-ui/icons/MoreVertOutlined";
 import FolderIcon from "@material-ui/icons/Folder";
 import React, { useState, useEffect } from "react";
@@ -8,6 +7,8 @@ import { useCollectionOnce } from "react-firebase-hooks/firestore";
 import { db } from "../../firebase";
 import { useSession } from "next-auth/client";
 import { useRouter } from "next/dist/client/router";
+import LoadingSpinner from "../UI/LoadingSpinner";
+import { DeleteForever } from "@material-ui/icons";
 
 const MyFile = () => {
   const [session] = useSession();
@@ -23,7 +24,11 @@ const MyFile = () => {
   let fileContent;
 
   if (loading && !snapshot) {
-    fileContent = <h3>Loading</h3>;
+    fileContent = (
+      <div className="center">
+        <LoadingSpinner />
+      </div>
+    );
   }
   if (!loading && !snapshot) {
     fileContent = <h3>You Dont have any Document Created</h3>;
@@ -32,24 +37,26 @@ const MyFile = () => {
   if (snapshot && !loading) {
     fileContent = snapshot?.docs.map((doc) => {
       return (
-        <div
-          key={doc.id}
-          onClick={() => {
-            router.push(`/doc/${doc.id}`);
-          }}
-          className={cls["myfile__file"]}
-        >
-          <span className={cls["myfile__text"]}>
-            <AssignmentIcon className={cls["myfile__text-icon"]} />
-          </span>
-          <span className={cls["myfile__title"]}>{doc.data().fileName}</span>
-          <span className={cls["myfile__date"]}>
-            {doc.data().timestamp.toDate().toLocaleDateString()}
-          </span>
-          <span className={cls["myfile__more"]}>
-            <MoreVertOutlinedIcon className={cls["myfile__more-icon"]} />
-          </span>
-        </div>
+        <>
+          <div
+            key={doc.id}
+            onClick={() => {
+              router.push(`/doc/${doc.id}`);
+            }}
+            className={cls["myfile__file"]}
+          >
+            <span className={cls["myfile__text"]}>
+              <AssignmentIcon className={cls["myfile__text-icon"]} />
+            </span>
+            <span className={cls["myfile__title"]}>{doc.data().fileName}</span>
+            <span className={cls["myfile__date"]}>
+              {doc.data().timestamp.toDate().toLocaleDateString()}
+            </span>
+            <span className={cls["myfile__more"]}>
+              <MoreVertOutlinedIcon className={cls["myfile__more-icon"]} />
+            </span>
+          </div>
+        </>
       );
     });
   }

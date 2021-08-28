@@ -1,0 +1,83 @@
+.backdrop {
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  background: rgba(236, 235, 235, 0.7);
+  z-index: 1000;
+}
+
+.modal {
+  z-index: 1100;
+  width: 20%;
+  position: fixed;
+  top: 13vh;
+  right: 2rem;
+  background: white;
+  box-shadow: 0px 10px 12px rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
+  overflow: hidden;
+  @media screen and (max-width: 1000px) {
+    width: 40%;
+  }
+  @media screen and (max-width: 600px) {
+    width: 70%;
+  }
+}
+.user {
+  &__img-box {
+    text-align: center;
+    margin-top: -2rem;
+    img {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+    }
+  }
+  &__name {
+    margin-top: 2rem;
+    font-size: 1.4rem;
+    font-weight: 700;
+    text-align: center;
+  }
+  &__email {
+    margin-top: 1rem;
+    font-size: 1.3rem;
+    font-weight: normal;
+    text-align: center;
+    color: gray;
+    margin-bottom: 3rem;
+  }
+}
+
+.header {
+  background: rgb(230, 227, 227);
+  h2 {
+    padding: 3rem;
+    text-align: center;
+  }
+}
+.footer {
+  background: rgb(216, 215, 216);
+  padding: 2rem;
+  text-align: center;
+  button {
+    padding: 1.1rem 2rem;
+    background: rgb(21, 173, 233);
+    border-radius: 7px;
+    font-weight: bold;
+    color: white;
+    font-size: 1.2rem;
+
+    letter-spacing: 1.2px;
+    transition: all 0.3s;
+
+    &:hover {
+      background: rgba(rgb(21, 173, 233), 0.8);
+    }
+    &:active {
+      transform: scale(0.95);
+    }
+  }
+}

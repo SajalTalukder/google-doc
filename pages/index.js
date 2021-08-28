@@ -2,14 +2,29 @@ import React from "react";
 import Home from "../Components/Home/Home";
 import Login from "../Components/Login";
 import { getSession, useSession } from "next-auth/client";
+import Head from "next/head";
 const HomePage = () => {
   const [session] = useSession();
   console.log(session);
   if (!session) {
-    return <Login />;
+    return (
+      <>
+        <Head>
+          <title>Sign in with Google</title>
+        </Head>
+        <Login />
+      </>
+    );
   }
 
-  return <Home />;
+  return (
+    <>
+      <Head>
+        <title>Google Docs </title>
+      </Head>
+      <Home />
+    </>
+  );
 };
 
 export default HomePage;
