@@ -37,7 +37,14 @@
     margin-top: 3rem;
   }
 
+  &__flex {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
   &__file {
+    flex: 0.95;
     display: flex;
     justify-content: space-between;
     font-size: 1.4rem;
@@ -63,9 +70,10 @@
   }
   &__more {
     border-radius: 50%;
-    padding: 0.7rem;
+    padding: 0.5rem;
     text-align: center;
     cursor: pointer;
+    color: red;
 
     transition: 0.3s ease-in;
     &:hover {

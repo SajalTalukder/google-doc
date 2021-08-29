@@ -4,14 +4,17 @@ import { db } from "../../firebase";
 import { useSession } from "next-auth/client";
 import firebase from "firebase";
 import { useRouter } from "next/dist/client/router";
+import LoadingSpinner from "./LoadingSpinner";
 
 const Modal = ({ onClose }) => {
   const router = useRouter();
   const [session] = useSession();
   const [value, setValue] = useState("");
+  const [loading, setLoading] = useState(false);
   const createDocument = async () => {
     if (!value) return;
 
+    setLoading(true);
     const firestore = await db
       .collection("userDocs")
       .doc(session.user.email)
@@ -23,8 +26,10 @@ const Modal = ({ onClose }) => {
 
     setValue("");
     onClose();
+    setLoading(false);
     router.push(`/doc/${firestore.id}`);
   };
+
   return (
     <>
       <div onClick={onClose} className={cls["backdrop"]}></div>
@@ -45,9 +50,14 @@ const Modal = ({ onClose }) => {
           <button onClick={onClose} className={cls["modal__button-2"]}>
             Cancel
           </button>
-          <button onClick={createDocument} className={cls["modal__button-1"]}>
-            Create
-          </button>
+          {!loading && (
+            <button onClick={createDocument} className={cls["modal__button-1"]}>
+              Create
+            </button>
+          )}
+          {loading && (
+            <button className={cls["modal__button-1"]}>Loading...</button>
+          )}
         </div>
       </div>
     </>

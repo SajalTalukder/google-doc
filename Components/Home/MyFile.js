@@ -1,5 +1,4 @@
 import AssignmentIcon from "@material-ui/icons/Assignment";
-import MoreVertOutlinedIcon from "@material-ui/icons/MoreVertOutlined";
 import FolderIcon from "@material-ui/icons/Folder";
 import React, { useState, useEffect } from "react";
 import cls from "./MyFile.module.scss";
@@ -14,6 +13,27 @@ const MyFile = () => {
   const [session] = useSession();
 
   const router = useRouter();
+
+  const [docArr, setDoc] = useState([]);
+  const email = session?.user?.email;
+
+  useEffect(() => {
+    db.collection("userDocs")
+      .doc(email)
+      .collection("docs")
+      .orderBy("timestamp", "desc")
+      .onSnapshot((snapshot) => {
+        const docs = snapshot?.docs?.map((doc) => {
+          return {
+            id: doc?.id,
+            fileName: doc?.data()?.fileName,
+            timestamp: doc.data()?.timestamp,
+          };
+        });
+        setDoc(docs);
+      });
+  }, [email, setDoc]);
+
   const [snapshot, loading] = useCollectionOnce(
     db
       .collection("userDocs")
@@ -31,31 +51,42 @@ const MyFile = () => {
       </div>
     );
   }
-  if (!loading && !snapshot) {
-    fileContent = <h3>You Dont have any Document Created</h3>;
-  }
 
-  if (snapshot && !loading) {
-    fileContent = snapshot?.docs.map((doc, i) => {
+  const deleteHandler = async (id) => {
+    const res = await db
+      .collection("userDocs")
+      .doc(session?.user?.email)
+      .collection("docs")
+      .doc(id)
+      .delete();
+  };
+
+  if (docArr.length !== 0) {
+    fileContent = docArr.map((doc, i) => {
       return (
-        <div key={doc.id}>
+        <div key={doc.id} className={cls["myfile__flex"]}>
           <div
             onClick={() => {
-              router.push(`/doc/${doc.id}`);
+              router.push(`/doc/${doc?.id}`);
             }}
             className={cls["myfile__file"]}
           >
             <span className={cls["myfile__text"]}>
               <AssignmentIcon className={cls["myfile__text-icon"]} />
             </span>
-            <span className={cls["myfile__title"]}>{doc.data().fileName}</span>
+            <span className={cls["myfile__title"]}>{doc?.fileName}</span>
             <span className={cls["myfile__date"]}>
-              {doc.data().timestamp.toDate().toLocaleDateString()}
-            </span>
-            <span className={cls["myfile__more"]}>
-              <MoreVertOutlinedIcon className={cls["myfile__more-icon"]} />
+              {doc?.timestamp?.toDate().toLocaleDateString()}
             </span>
           </div>
+          <span className={cls["myfile__more"]}>
+            <DeleteForever
+              onClick={() => {
+                deleteHandler(doc?.id);
+              }}
+              className={cls["myfile__more-icon"]}
+            />
+          </span>
         </div>
       );
     });
